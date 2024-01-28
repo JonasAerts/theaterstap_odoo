@@ -1,0 +1,4 @@
+master pass: S0S!S0S!
+db_name = odoo
+email = jonas.aerts@hotmail.com
+	jonasaerts

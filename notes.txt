@@ -1,0 +1,9 @@
+[get container ip]
+    docker ps
+
+[connect to db container]
+    docker exec -it <container_ip> psql -U <role>
+[list db in container]
+    \l
+[connect to db]
+    \c <db_name>
