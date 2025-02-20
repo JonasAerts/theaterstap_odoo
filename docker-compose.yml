@@ -1,7 +1,7 @@
-version: '3.1'
 services:
   web:
     image: odoo:18.0
+    working_dir: /opt/odoo
     depends_on:
       - db
     restart: always
@@ -9,8 +9,8 @@ services:
       - "8069:8069"
     volumes:
       - odoo-web-data:/var/lib/odoo
-      - ./config:/etc/odoo
-      - ./addons:/mnt/extra-addons/custom
+      - config:/etc/odoo
+      - extra-addons:/mnt/extra-addons
     environment:
       - HOST=db
       - USER=odoo
@@ -28,3 +28,5 @@ services:
 volumes:
   odoo-web-data:
   odoo-db-data:
+  extra-addons:
+  config:
