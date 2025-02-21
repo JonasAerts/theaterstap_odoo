@@ -11,8 +11,7 @@ services:
       - "8069:8069"
     volumes:
       - odoo-web-data:/var/lib/odoo
-      - ./config:/etc/odoo
-      - ./addons:/mnt/extra-addons/custom
+      - /config:/etc/odoo
     environment:
       - HOST=db
       - USER=odoo
@@ -30,5 +29,4 @@ services:
 volumes:
   odoo-web-data:
   odoo-db-data:
-  extra-addons:
   config:
