@@ -1,7 +1,8 @@
 {
     'name': "Stap Custom module",
+    'licence': 'GPL-3',
     'version': '18.0.1.0',
-    'depends': ['partner'],
+    'depends': ['contacts'],
     'author': "Jonas Aerts",
     'category': 'Partner',
     # data files always loaded at installation
