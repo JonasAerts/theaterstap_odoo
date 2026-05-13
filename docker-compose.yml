@@ -3,7 +3,7 @@ services:
     container_name: odoo
     build:
       context: .
-    working_dir: /opt/odoo
+      dockerfile: Dockerfile.ubuntu
     depends_on:
       - db
     restart: always
@@ -12,6 +12,7 @@ services:
     volumes:
       - odoo-web-data:/var/lib/odoo
       - ./config:/etc/odoo
+      - ./addons:/mnt/extra-addons
     environment:
       - HOST=db
       - USER=odoo
