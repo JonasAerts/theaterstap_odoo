@@ -1,0 +1,18 @@
+# Personal notes
+jona_lokaal_odoo.txt
+jonas_lokaal.txt
+
+# Odoo data and logs
+odoo-db-data/
+odoo-web-data/
+*.log
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.venv/
+env/
+venv/

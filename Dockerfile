@@ -42,12 +42,17 @@ RUN curl -o wkhtmltox.deb -sSL https://github.com/wkhtmltopdf/packaging/releases
 # Create odoo user
 RUN useradd -m -d /opt/odoo -s /bin/bash odoo
 
-# Clone Odoo source
+# Clone Odoo source directly into /opt/odoo
 WORKDIR /opt/odoo
-RUN git clone --depth 1 --branch 19.0 https://www.github.com/odoo/odoo .
+RUN find . -mindepth 1 -delete \
+    && git clone --depth 1 --branch 19.0 https://www.github.com/odoo/odoo .
 
 # Install Python dependencies
-RUN pip3 install --no-cache-dir -r requirements.txt
+# We manually install build tools and gevent first to avoid build isolation 
+# pulling Cython 3.x, which is incompatible with gevent 21.8.0.
+RUN pip3 install --no-cache-dir "Cython<3.0" "setuptools<70" "wheel" \
+    && pip3 install --no-cache-dir --no-build-isolation gevent==21.8.0 \
+    && pip3 install --no-cache-dir -r requirements.txt
 
 # Set up directories for configuration and custom addons
 RUN mkdir -p /etc/odoo /mnt/extra-addons /var/lib/odoo
@@ -64,7 +69,7 @@ ENV PATH="/opt/odoo:${PATH}"
 EXPOSE 8069 8071 8072
 
 # Set the default config file
-ENV ODOO_RC /etc/odoo/odoo.conf
+ENV ODOO_RC="/etc/odoo/odoo.conf"
 
 USER odoo
 
