@@ -1,9 +1,9 @@
-#!/bin/bash
+#dirname!/bin/bash
 
 # Configuration
 MAIN_REPO="git@github.com:JonasAerts/TheaterStap_odoo.git"
 ADDONS_REPO="git@github.com:JonasAerts/theaterstap_odoo_addons.git"
-PROJECT_DIR="/opt/TheaterStapOdoo"
+PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 echo "--- Starting Deployment Pipeline ---"
 
