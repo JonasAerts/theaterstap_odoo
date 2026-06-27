@@ -12,13 +12,15 @@ cd $PROJECT_DIR || { echo "Directory $PROJECT_DIR not found"; exit 1; }
 
 # Update main repository
 echo "Updating main repository..."
-git pull origin main
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+git pull origin "$CURRENT_BRANCH"
 
 # Update or Clone addons repository
 if [ -d "addons/.git" ]; then
     echo "Updating addons repository..."
     cd addons
-    git pull origin main
+    ADDONS_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+    git pull origin "$ADDONS_BRANCH"
     cd ..
 else
     echo "Cloning addons repository..."
