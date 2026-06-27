@@ -31,3 +31,5 @@ services:
 volumes:
   odoo-web-data:
   odoo-db-data:
+    name: theaterstap_odoo_odoo-db-data
+    external: true
