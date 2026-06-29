@@ -45,7 +45,8 @@ RUN useradd -m -d /opt/odoo -s /bin/bash odoo
 # Clone Odoo source and pin to a specific stable commit (June 2026)
 WORKDIR /opt/odoo
 RUN find . -mindepth 1 -delete \
-    && git clone --branch 19.0 https://www.github.com/odoo/odoo . \
+    && git config --global --add safe.directory /opt/odoo \
+    && git clone --progress --branch 19.0 --filter=blob:none https://github.com/odoo/odoo.git . \
     && git reset --hard f2fded4
 
 # Install Python dependencies

@@ -25,12 +25,12 @@ if [ -d "addons/.git" ]; then
 else
     echo "Cloning addons repository..."
     rm -rf addons
-    git clone $ADDONS_REPO addons
+    git clone --progress $ADDONS_REPO addons
 fi
 
 # Build and Restart Docker Containers
 echo "Rebuilding and restarting Docker containers..."
-docker-compose up -d --build
+BUILDKIT_PROGRESS=plain docker-compose up -d --build
 
 # Clean up unused images to save space on NAS
 echo "Cleaning up unused Docker images..."
