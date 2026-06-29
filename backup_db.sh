@@ -19,22 +19,17 @@ set -e
 set -o pipefail
 
 # Create a file name for the backup based on the current date and time
-# Example: 2019-01-27_13:42:00.master.bak
-FILE_NAME=$(date +%Y-%m-%d_%H:%M:%S.$DATABASE_NAME.bak)
+# Example: 2026-06-29_23:55:00.odoo.dump
+FILE_NAME=$(date +%Y-%m-%d_%H-%M-%S.$DATABASE_NAME.dump)
 
 # Make sure the backups folder exists on the host file system
 mkdir -p "./backups"
 
 echo "Backing up database '$DATABASE_NAME' from container '$CONTAINER_NAME'..."
 
-# Create a database backup with sqlcmd
-docker exec -it "$CONTAINER_NAME" /opt/mssql-tools/bin/sqlcmd -b -V16 -S localhost -U SA -Q "BACKUP DATABASE [$DATABASE_NAME] TO DISK = N'/var/opt/mssql/backups/$FILE_NAME' with NOFORMAT, NOINIT, NAME = '$DATABASE_NAME-full', SKIP, NOREWIND, NOUNLOAD, STATS = 10"
-
-echo ""
-echo "Exporting file from container..."
-
-# Copy the created file out of the container to the host filesystem
-docker cp $CONTAINER_NAME:/var/opt/mssql/backups/$FILE_NAME ./backups/$FILE_NAME
+# Create a database backup with pg_dump and stream it directly to the host file
+# Note: We do NOT use the -t (TTY) flag on docker exec to avoid binary corruption
+docker exec -e PGPASSWORD="odoo" "$CONTAINER_NAME" pg_dump -U odoo -F c "$DATABASE_NAME" > "./backups/$FILE_NAME"
 
 echo "Backed up database '$DATABASE_NAME' to ./backups/$FILE_NAME"
 echo "Done!"

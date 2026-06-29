@@ -11,7 +11,7 @@ services:
     ports:
       - "8069:8069"
     volumes:
-      - odoo-web-data:/var/lib/odoo
+      - ./odoo-web-data:/var/lib/odoo
       - ./config:/etc/odoo
       - ./addons:/mnt/extra-addons
     environment:
@@ -28,9 +28,4 @@ services:
       - PGDATA=/var/lib/postgresql/data/pgdata
     restart: always
     volumes:
-      - odoo-db-data:/var/lib/postgresql/data/pgdata
-volumes:
-  odoo-web-data:
-  odoo-db-data:
-    name: theaterstap_odoo_odoo-db-data
-    external: true
+      - ./odoo-db-data:/var/lib/postgresql/data/pgdata
