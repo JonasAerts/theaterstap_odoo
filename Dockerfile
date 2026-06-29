@@ -42,12 +42,11 @@ RUN curl -o wkhtmltox.deb -sSL https://github.com/wkhtmltopdf/packaging/releases
 # Create odoo user
 RUN useradd -m -d /opt/odoo -s /bin/bash odoo
 
-# Clone Odoo source and pin to a specific stable commit (June 2026)
+# Clone Odoo source (shallow clone for faster build)
 WORKDIR /opt/odoo
 RUN find . -mindepth 1 -delete \
     && git config --global --add safe.directory /opt/odoo \
-    && git clone --progress --branch 19.0 --filter=blob:none https://github.com/odoo/odoo.git . \
-    && git reset --hard f2fded4
+    && git clone --progress --depth 1 --branch 19.0 https://github.com/odoo/odoo.git .
 
 # Install Python dependencies
 # We manually install build tools and gevent first to avoid build isolation 
