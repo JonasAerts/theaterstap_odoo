@@ -51,9 +51,10 @@ RUN find . -mindepth 1 -delete \
 # Install Python dependencies
 # We manually install build tools and gevent first to avoid build isolation 
 # pulling Cython 3.x, which is incompatible with gevent 21.8.0.
-RUN pip3 install --no-cache-dir "Cython<3.0" "setuptools<70" "wheel" \
-    && pip3 install --no-cache-dir --no-build-isolation gevent==21.8.0 \
-    && pip3 install --no-cache-dir -r requirements.txt
+# We use the -v (verbose) flag to show compilation progress in real-time.
+RUN pip3 install -v --no-cache-dir "Cython<3.0" "setuptools<70" "wheel" \
+    && pip3 install -v --no-cache-dir --no-build-isolation gevent==21.8.0 \
+    && pip3 install -v --no-cache-dir -r requirements.txt
 
 # Set up directories for configuration and custom addons
 RUN mkdir -p /etc/odoo /mnt/extra-addons /var/lib/odoo
